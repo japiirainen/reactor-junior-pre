@@ -19,4 +19,5 @@ const renderTemplate = async (req, res) => {
 
 module.exports = {
    renderTemplate,
+   getFile,
 }
