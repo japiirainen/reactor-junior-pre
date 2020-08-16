@@ -1,9 +1,9 @@
-const { getFile } = require('../templatesUtil')
+const { readFile } = require('../utils/fileContents')
 const { config } = require('../config')
 
 describe('template module', () => {
-   test('et should read template', async () => {
-      const fileContents = await getFile(config.url.itemList)
+   test('it should read template', async () => {
+      const fileContents = await readFile(config.templates.itemList)
       expect(fileContents).toBeDefined()
       expect(fileContents.includes('html')).toBeTruthy()
    })
