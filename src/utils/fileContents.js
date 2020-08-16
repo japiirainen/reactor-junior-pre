@@ -11,11 +11,9 @@ const readFile = async path => {
    }
 }
 
-const packageNameRegex = /(?<=Package: )(?<some>(?:a)?\w+)/g
-
 const findPackageNames = data => {
    const packageNames = []
-   const packages = data.match(packageNameRegex)
+   const packages = data.match(config.regex.packageNameRegex)
    packageNames.push(packages)
    return packageNames.flat(1)
 }
@@ -30,8 +28,11 @@ const formatPackageNames = data => {
       </a>
       `
    })
-
-   return html
+   if (html) {
+      return html
+   } else {
+      console.error('failed to format data')
+   }
 }
 
 module.exports = {

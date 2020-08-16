@@ -7,6 +7,9 @@ const config = {
    files: {
       varLib: path.join(__dirname, '..', 'var_lib_dpkg_status'),
    },
+   regex: {
+      packageNameRegex: /(?<=Package: )(?<some>(?:a)?\w+)/g,
+   },
 }
 
 module.exports = {
