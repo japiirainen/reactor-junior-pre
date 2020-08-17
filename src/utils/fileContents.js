@@ -1,6 +1,5 @@
 const fs = require('fs/promises')
 const { config } = require('../config')
-const { parseStatus } = require('./test')
 
 const readFile = async path => {
    try {
@@ -79,11 +78,3 @@ module.exports = {
    formatSingleItem,
    findPackageByName,
 }
-
-async function myFunc() {
-   const file = await readFile(config.files.varLib)
-   const res = await parseStatus(file)
-   console.log(res)
-   return res
-}
-myFunc()
