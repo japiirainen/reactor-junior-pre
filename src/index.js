@@ -1,16 +1,19 @@
 const express = require('express')
 const dotenv = require('dotenv')
 const path = require('path')
-const { renderIndexPage } = require('./utils/templatesUtils')
+const { renderIndexPage, renderItemPage } = require('./utils/templatesUtils')
 const app = express()
 
 dotenv.config()
+
 const PORT = process.env.PORT
 
 //middleware
 app.use(express.static(path.join(__dirname, 'templates', 'styles')))
-app.use('/hello.html', renderIndexPage)
+app.use('/packageList', renderIndexPage)
+app.use('/package/:id', renderItemPage)
 
+//make some kind of 404 page
 app.get('/', (_, res) => {
    res.send({ message: 'hello world' })
 })

@@ -1,6 +1,6 @@
 const fs = require('fs/promises')
-const { compose } = require('ramda')
 const { config } = require('../config')
+const { parseStatus } = require('./test')
 
 const readFile = async path => {
    try {
@@ -11,17 +11,21 @@ const readFile = async path => {
    }
 }
 
-const findPackageNames = data => {
+const findPackageNames = file => {
    const packageNames = []
-   const packages = data.match(config.regex.packageNameRegex)
+   const packages = file.match(config.regex.packageNameRegex)
    packageNames.push(packages)
-   return packageNames.flat(1)
+   return packageNames.flat(1).sort((a, b) => a.localeCompare(b))
+}
+
+const findPkgDesc = file => {
+   const descriptions = file.match(config.regex.packageDescRegex)
 }
 
 const formatPackageNames = data => {
    const html = data.map(v => {
       return `
-      <a href=${v} alt=${v}>
+      <a href=package/${v} alt=${v}>
         <li>
             ${v}
         </li>
@@ -29,9 +33,42 @@ const formatPackageNames = data => {
       `
    })
    if (html) {
-      return html
+      return html.join('')
    } else {
       console.error('failed to format data')
+   }
+}
+
+const findPackageByName = (arr, v) => arr.find(x => x === v)
+
+const formatSingleItem = pkg => {
+   const html = `
+         <body>
+         <header>
+            <div class="header">
+               <h1>${pkg}</h1>
+            </div>
+         </header>
+         <main>
+            <div class="container">
+            <table style="width:100%">
+            <tr>
+               <th>Description</th>
+               <th>Depends on</th>
+            </tr>
+            <tr>
+               <td>lol</td>
+               <td>lol</td>
+            </tr>
+         </table>
+            </div>
+         </main>
+      </body>
+   `
+   if (html) {
+      return html
+   } else {
+      console.error('failed to format item')
    }
 }
 
@@ -39,4 +76,14 @@ module.exports = {
    readFile,
    findPackageNames,
    formatPackageNames,
+   formatSingleItem,
+   findPackageByName,
 }
+
+async function myFunc() {
+   const file = await readFile(config.files.varLib)
+   const res = await parseStatus(file)
+   console.log(res)
+   return res
+}
+myFunc()

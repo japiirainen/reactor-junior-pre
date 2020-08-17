@@ -26,9 +26,14 @@ h6 {
    }
 }
 
+h6 {
+   font-size: 25px
+}
+
 .header {
    border-bottom: 1.5px solid rgb(200, 200, 200);
    display: flex;
+   margin-top: 0.5rem;
    justify-content: space-between;
    padding: 0.5rem calc((100vw - 550px - 0.5rem) / 2);
    min-height: 3rem;
@@ -38,4 +43,36 @@ h6 {
    margin: 2rem auto 4rem;
    max-width: 90vw;
    width: 800px;
+}
+
+table,
+th,
+td {
+   border: 1px solid black;
+   border-collapse: collapse;
+}
+
+th,
+td {
+   padding: 5px;
+   text-align: left;
+}
+
+ul {
+   list-style-type: "=>";
+}
+
+li {
+   font-size: 20px;
+   margin: 0 3rem 0 3rem;
+   padding: 1rem;
+}
+
+a {
+   color: black;
+   text-decoration: underline;
+}
+
+a :hover {
+   color: red;
 }
