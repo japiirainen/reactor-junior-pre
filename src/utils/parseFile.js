@@ -1,7 +1,5 @@
-const Ramda = require('ramda')
 const { readFile } = require('./fileContents')
 const { config } = require('../config')
-const { map } = Ramda
 
 const packages = []
 
@@ -21,8 +19,14 @@ const parseSingleItem = (str, id) => {
    const descriptionSearch = str.match(/(?<=Description: )[\s\S]+?(?=\n[A-Z])/)
    // Replace \n with <br/>
    item.desc = descriptionSearch && descriptionSearch[0].replace('\n', '<br/>')
+   //find deps and remove version numbers
+   const depsSearch = str.match(/(?<=Depends: )[\s\S]+?(?=\n[A-Z])/)
+   item.deps = depsSearch && depsSearch[0].replace(/\(.*?\)/g, '').trim()
+
    return item
 }
+
+//need to be able to find reverse deps so maybe should put deps as list of ids to be able to search with id
 
 const parseFile = fileContents => {
    //packages separated by line so =>
