@@ -30,8 +30,8 @@ const parseSingleItem = str => {
    return [
       name,
       {
+         name,
          desc,
-         revDep: [],
          deps,
       },
    ]

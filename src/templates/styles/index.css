@@ -35,6 +35,7 @@ h6 {
    display: flex;
    margin-top: 0.5rem;
    justify-content: space-between;
+   align-content: center;
    padding: 0.5rem calc((100vw - 550px - 0.5rem) / 2);
    min-height: 3rem;
 }
@@ -44,6 +45,14 @@ h6 {
    max-width: 90vw;
    width: 800px;
 }
+
+.name,
+.deps,
+.desc {
+   margin-top: 3rem;
+}
+
+
 
 table,
 th,

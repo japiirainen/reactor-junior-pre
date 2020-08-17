@@ -16,7 +16,6 @@ const makeIndexTemplate = async () => {
    return formatPackageNames(data)
 }
 
-//.sort((a, b) => a.name.localeCompare(b.name))
 const renderIndexPage = async (_, res) => {
    const template = await readFile(config.templates.itemList)
    const packageNameList = await makeIndexTemplate()

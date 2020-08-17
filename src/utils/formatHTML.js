@@ -17,33 +17,66 @@ const formatPackageNames = data => {
 }
 
 const formatSingleItem = (data, name) => {
-   const pkg = data.get(name)
-   console.log(pkg)
-   if (pkg) {
+   const package = data.get(name)
+   //remove duplicates from deps
+   const deps = [...new Set(package.deps)]
+   //find reverse deps
+   const values = Array.from(data.values())
+   //remove duplicates from reverse deps
+   const revDeps = [
+      ...new Set(
+         values
+            .filter(pkg => {
+               const deps = pkg.deps
+               return deps.find(x => x === name)
+            })
+            .map(v => v.name)
+      ),
+   ]
+
+   if (package) {
       const html = `
          <body>
          <header>
             <div class="header">
-               <h1>${name}</h1>
+               <a class="home" href=${'/'}>
+                  <h4><= Home</h4>
+                </a>
             </div>
          </header>
          <main>
          <div class="container">
-            <h4>Description: </h4>
-            <p>${pkg.desc}</p>
-         <h4>DependsOn: </h4>
-            <ol>
+         <h4>Package name: </h4><span class="name">${name}</span>
+            <h4 class="desc">Description: </h4>
+            <p>${package.desc}</p>
+         <h4 class="deps">Dependencies: </h4>
+            <ul>
             ${
-               pkg.deps.length > 0
-                  ? pkg.deps.map(v => {
-                       return `<a href=${v} alt=${v}>
+               deps.length > 0
+                  ? deps
+                       .map(v => {
+                          return `<a href=${v === 'python3:any' ? v.replace(':any', '') : v} alt=${v}>
                <li> ${v} </li>
                </a>`
-                    })
+                       })
+                       .join('')
                   : `<h4>No dependencies</h4>`
             }
-            </ol>
-         </table>
+            </ul>
+            <h4 class="deps">Reverse dependencies: </h4>
+            <ul>
+            ${
+               revDeps.length > 0
+                  ? revDeps
+                       .map(v => {
+                          return `<a href=${v === 'python3:any' ? v.replace(':any', '') : v} alt=${v}>
+               <li> ${v} </li>
+               </a>`
+                       })
+                       .join('')
+                  : `<h4>No reverse dependencies</h4>`
+            }
+            </ul>
             </div>
          </main>
       </body>
