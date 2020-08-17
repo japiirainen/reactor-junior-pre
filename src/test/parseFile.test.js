@@ -1,4 +1,5 @@
-const { getData } = require('../utils/parseFile')
+const { getData, parseSingleItem } = require('../utils/parseFile')
+
 describe('File parser', () => {
    test('it should give ids', async () => {
       const res = await getData()
@@ -9,6 +10,6 @@ describe('File parser', () => {
    })
    test('it should find packages dependencies', async () => {
       const res = await getData()
-      expect(res[1].deps).toEqual('e2fslibs , libc6')
+      expect(res[1].deps).toHaveLength(2)
    })
 })

@@ -10,29 +10,31 @@ const readFile = async path => {
    }
 }
 
-const packages = []
-
-const parseSingleItem = (str, id) => {
-   const item = {
-      id,
-      name: '',
-      desc: '',
-      depsOn: [],
-      revDep: [],
-      deps: [],
-   }
-   item.name = str.match(/(?<=Package: ).+/)[0]
-   packages[item.name] = id
+const parseSingleItem = str => {
+   const name = str.match(/(?<=Package: ).+/)[0]
 
    // Find description
    const descriptionSearch = str.match(/(?<=Description: )[\s\S]+?(?=\n[A-Z])/)
    // Replace \n with <br/>
-   item.desc = descriptionSearch && descriptionSearch[0].replace('\n', '<br/>')
+   const desc = descriptionSearch && descriptionSearch[0].replace('\n', '<br/>').replace(/\.\s*\./, '.')
    //find deps and remove version numbers
    const depsSearch = str.match(/(?<=Depends: )[\s\S]+?(?=\n[A-Z])/)
-   item.deps = depsSearch && depsSearch[0].replace(/\(.*?\)/g, '').trim()
 
-   return item
+   const deps = depsSearch
+      ? depsSearch[0]
+           .replace(/\(.*?\)/g, '')
+           .split(',')
+           .map(v => v.trim())
+      : []
+
+   return [
+      name,
+      {
+         desc,
+         revDep: [],
+         deps,
+      },
+   ]
 }
 
 //need to be able to find reverse deps so maybe should put deps as list of ids to be able to search with id
@@ -41,17 +43,22 @@ const parseFile = fileContents => {
    //packages separated by line so =>
    const singlePackages = fileContents.split('\n\n').filter(v => v.startsWith('Package'))
    //parse items
-   const parsed = singlePackages.map(parseSingleItem)
-   return parsed
+   return new Map(singlePackages.map(parseSingleItem))
 }
+
+// cached data array
+let _data
+
 async function getData() {
+   if (_data) return _data
    const file = await readFile(config.files.varLib)
-   const res = parseFile(file)
-   return res
+   _data = parseFile(file)
+   return _data
 }
 getData()
 
 module.exports = {
    getData,
    readFile,
+   parseSingleItem,
 }

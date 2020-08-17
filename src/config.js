@@ -10,7 +10,7 @@ const config = {
    },
    regex: {
       packageNameRegex: /(?<=Package: )([\w'-.]+)(?<some>(?:a)?\w+)/g,
-      packageDescRegex: /(?<=Description: )([\w'-.\ ]+)(?<some>(?:a)?\w+)/g,
+      packageDescRegex: /(?<=Description: )([\w'-.\ \n]+)(?<some>(?:a)?\w+)/g,
    },
 }
 

@@ -1,9 +1,10 @@
 const formatPackageNames = data => {
-   const html = data.map(v => {
+   const keys = Array.from(data.keys()).sort((a, b) => a.localeCompare(b))
+   const html = keys.map(key => {
       return `
-      <a href=package/${v.id} alt=${v.name}>
+      <a href=package/${key} alt=${key}>
         <li>
-            ${v.name}
+            ${key}
         </li>
       </a>
       `
@@ -15,25 +16,32 @@ const formatPackageNames = data => {
    }
 }
 
-const formatSingleItem = (data, id) => {
-   const pkg = data[id]
+const formatSingleItem = (data, name) => {
+   const pkg = data.get(name)
+   console.log(pkg)
    if (pkg) {
       const html = `
          <body>
          <header>
             <div class="header">
-               <h1>${pkg.name}</h1>
+               <h1>${name}</h1>
             </div>
          </header>
-         <div>
-         <h4>Description: </h4>
-         <p>${pkg.desc}</p>
-         </div>
          <main>
-         <h4>DependsOn: </h4
+         <div class="container">
+            <h4>Description: </h4>
+            <p>${pkg.desc}</p>
+         <h4>DependsOn: </h4>
             <ol>
-               <li>some package</li>
-               <li>some other package</td>
+            ${
+               pkg.deps.length > 0
+                  ? pkg.deps.map(v => {
+                       return `<a href=${v} alt=${v}>
+               <li> ${v} </li>
+               </a>`
+                    })
+                  : `<h4>No dependencies</h4>`
+            }
             </ol>
          </table>
             </div>
