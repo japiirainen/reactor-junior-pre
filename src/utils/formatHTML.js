@@ -1,22 +1,3 @@
-const fs = require('fs/promises')
-const { config } = require('../config')
-
-const readFile = async path => {
-   try {
-      const fileContents = await fs.readFile(path)
-      return fileContents.toString()
-   } catch (e) {
-      console.error(e)
-   }
-}
-
-const findPackageNames = file => {
-   const packageNames = []
-   const packages = file.match(config.regex.packageNameRegex)
-   packageNames.push(packages)
-   return packageNames.flat(1).sort((a, b) => a.localeCompare(b))
-}
-
 const formatPackageNames = data => {
    const html = data.map(v => {
       return `
@@ -69,8 +50,6 @@ const formatSingleItem = (data, id) => {
 }
 
 module.exports = {
-   readFile,
-   findPackageNames,
    formatPackageNames,
    formatSingleItem,
 }

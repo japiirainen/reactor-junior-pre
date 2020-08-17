@@ -1,5 +1,14 @@
-const { readFile } = require('./fileContents')
+const fs = require('fs/promises')
 const { config } = require('../config')
+
+const readFile = async path => {
+   try {
+      const fileContents = await fs.readFile(path)
+      return fileContents.toString()
+   } catch (e) {
+      console.error(e)
+   }
+}
 
 const packages = []
 
@@ -44,4 +53,5 @@ getData()
 
 module.exports = {
    getData,
+   readFile,
 }

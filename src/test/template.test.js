@@ -1,4 +1,5 @@
-const { readFile, formatPackageNames, formatSingleItem } = require('../utils/fileContents')
+const { formatPackageNames, formatSingleItem } = require('../utils/formatHTML')
+const { readFile } = require('../utils/parseFile')
 const { config } = require('../config')
 const { getData } = require('../utils/parseFile')
 

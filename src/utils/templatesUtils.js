@@ -1,6 +1,7 @@
 const { config } = require('../config')
-const { readFile, formatPackageNames, formatSingleItem } = require('./fileContents')
-const { getData } = require('./parseFile')
+const { formatPackageNames, formatSingleItem } = require('./formatHTML')
+
+const { getData, readFile } = require('./parseFile')
 
 // const req = /\{{\s*([a-z]+?)\s*\}}/g
 // const re = /\{{\s*([a-z]+?)\s*\}}/
