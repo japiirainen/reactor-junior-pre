@@ -8,7 +8,7 @@ dotenv.config()
 
 const PORT = process.env.PORT
 
-//middleware
+//apply stylesheet
 app.use(express.static(path.join(__dirname, 'templates', 'styles')))
 
 //routes

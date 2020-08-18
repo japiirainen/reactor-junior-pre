@@ -1,15 +1,32 @@
-const { getData, parseSingleItem } = require('../utils/parseFile')
+const { getData } = require('../utils/parseFile')
 
 describe('File parser', () => {
-   test('it should give ids', async () => {
-      const res = await getData()
-      //test ids
-      expect(res[0].id).toEqual(0)
-      expect(res[1].id).toEqual(1)
-      expect(res.slice(-1)[0].id).toEqual(504)
-   })
-   test('it should find packages dependencies', async () => {
-      const res = await getData()
-      expect(res[1].deps).toHaveLength(2)
+   test('it should parse the var/lib/dpkg/status file into a Map with needed props', async () => {
+      const data = await getData()
+      const keys = Array.from(data.keys()).sort((a, b) => a.localeCompare(b))
+      //keys (pkg names)
+      expect(keys[0]).toEqual('accountsservice')
+      expect(keys.length).toEqual(700)
+      //description
+      const item = data.get('git')
+      expect(item.desc).toBeTruthy()
+      //deps
+      const deps = [...new Set(item.deps)]
+      expect(deps).toBeTruthy()
+      expect(deps.length).toEqual(7)
+      //reverse deps
+      const values = Array.from(data.values())
+      const revDeps = [
+         ...new Set(
+            values
+               .filter(pkg => {
+                  const deps = pkg.deps
+                  return deps.find(x => x === 'libc6')
+               })
+               .map(v => v.name)
+         ),
+      ]
+      expect(revDeps).toHaveLength(355)
+      expect(revDeps.includes('tcpd')).toBeTruthy()
    })
 })

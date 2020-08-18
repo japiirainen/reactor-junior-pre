@@ -12,7 +12,6 @@ const readFile = async path => {
 
 const parseSingleItem = str => {
    const name = str.match(/(?<=Package: ).+/)[0]
-
    // Find description
    const descriptionSearch = str.match(/(?<=Description: )[\s\S]+?(?=\n[A-Z])/)
    // Replace \n with <br/>
@@ -40,9 +39,9 @@ const parseSingleItem = str => {
 //need to be able to find reverse deps so maybe should put deps as list of ids to be able to search with id
 
 const parseFile = fileContents => {
-   //packages separated by line so =>
+   //packages separated by empty line so split with\n\n
    const singlePackages = fileContents.split('\n\n').filter(v => v.startsWith('Package'))
-   //parse items
+   //parse items to a Map
    return new Map(singlePackages.map(parseSingleItem))
 }
 
@@ -60,5 +59,4 @@ getData()
 module.exports = {
    getData,
    readFile,
-   parseSingleItem,
 }

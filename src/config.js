@@ -6,11 +6,7 @@ const config = {
       singleItem: path.join(__dirname, 'templates', 'singleItem.html'),
    },
    files: {
-      varLib: path.join(__dirname, '..', 'var_lib_dpkg_status'),
-   },
-   regex: {
-      packageNameRegex: /(?<=Package: )([\w'-.]+)(?<some>(?:a)?\w+)/g,
-      packageDescRegex: /(?<=Description: )([\w'-.\ \n]+)(?<some>(?:a)?\w+)/g,
+      varLib: path.join(__dirname, '..', 'data', 'mock'),
    },
 }
 

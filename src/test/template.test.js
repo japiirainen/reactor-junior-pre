@@ -21,7 +21,7 @@ describe('template module', () => {
    })
    test('it should return info about one package as html', async () => {
       const data = await getData()
-      const item = await formatSingleItem(data, 1)
+      const item = await formatSingleItem(data, 'git')
       expect(item).toBeTruthy()
    })
 })

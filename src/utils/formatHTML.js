@@ -15,26 +15,36 @@ const formatPackageNames = data => {
       console.error('failed to format data')
    }
 }
+//function for finding reverse dependencies + caching
+let _revDeps = {}
+const getRevDeps = (values, name) => {
+   if (_revDeps[name]) {
+      return _revDeps[name]
+   } else {
+      const revDeps = [
+         ...new Set(
+            values
+               .filter(pkg => {
+                  const deps = pkg.deps
+                  return deps.find(x => x === name)
+               })
+               .map(v => v.name)
+         ),
+      ]
+      _revDeps[name] = revDeps
+      return revDeps
+   }
+}
 
 const formatSingleItem = (data, name) => {
-   const package = data.get(name)
+   const item = data.get(name)
    //remove duplicates from deps
-   const deps = [...new Set(package.deps)]
+   const deps = [...new Set(item.deps)]
    //find reverse deps
    const values = Array.from(data.values())
-   //remove duplicates from reverse deps
-   const revDeps = [
-      ...new Set(
-         values
-            .filter(pkg => {
-               const deps = pkg.deps
-               return deps.find(x => x === name)
-            })
-            .map(v => v.name)
-      ),
-   ]
+   const revDeps = getRevDeps(values, item.name)
 
-   if (package) {
+   if (item) {
       const html = `
          <body>
          <header>
@@ -48,8 +58,8 @@ const formatSingleItem = (data, name) => {
          <div class="container">
          <h4>Package name: </h4><span class="name">${name}</span>
             <h4 class="desc">Description: </h4>
-            <p>${package.desc}</p>
-         <h4 class="deps">Dependencies: </h4>
+            <p>${item.desc}</p>
+         <h4 class="deps">The dependencies of this package: </h4>
             <ul>
             ${
                deps.length > 0
@@ -63,7 +73,7 @@ const formatSingleItem = (data, name) => {
                   : `<h4>No dependencies</h4>`
             }
             </ul>
-            <h4 class="deps">Reverse dependencies: </h4>
+            <h4 class="deps">The reverse dependencies of this package: </h4>
             <ul>
             ${
                revDeps.length > 0
