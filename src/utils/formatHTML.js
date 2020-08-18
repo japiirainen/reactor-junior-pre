@@ -88,8 +88,8 @@ const formatSingleItem = (data, name) => {
             }
             </ul>
             </div>
-         </main>
-      </body>
+          </main>
+          </body>
    `
       if (html) {
          return html

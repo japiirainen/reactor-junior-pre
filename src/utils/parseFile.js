@@ -11,8 +11,8 @@ const readFile = async path => {
 }
 
 const parseSingleItem = str => {
+   // Find name and description
    const name = str.match(/(?<=Package: ).+/)[0]
-   // Find description
    const descriptionSearch = str.match(/(?<=Description: )[\s\S]+?(?=\n[A-Z])/)
    // Replace \n with <br/>
    const desc = descriptionSearch && descriptionSearch[0].replace('\n', '<br/>').replace(/\.\s*\./, '.')
