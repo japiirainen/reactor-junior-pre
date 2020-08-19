@@ -13,9 +13,7 @@ app.use(express.static(path.join(__dirname, 'templates', 'styles')))
 
 //routes
 app.get('/', renderIndexPage)
-app.get('/:package/:name', renderItemPage)
-
-//make some kind of 404 page
+app.get('/package/:name', renderItemPage)
 
 app.listen(PORT, (_, __) => {
    console.log(`Listening on port: http://localhost:${PORT}`)
