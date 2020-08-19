@@ -38,14 +38,14 @@ const getRevDeps = (values, name) => {
 
 const formatSingleItem = (data, name) => {
    const item = data.get(name)
-   //remove duplicates from deps
-   const deps = [...new Set(item.deps)]
-   //find reverse deps
-   const values = Array.from(data.values())
-   const revDeps = getRevDeps(values, item.name)
-
    if (item) {
-      const html = `
+      //remove duplicates from deps
+      const deps = [...new Set(item.deps)]
+      //find reverse deps
+      const values = Array.from(data.values())
+      const revDeps = getRevDeps(values, item.name)
+
+      let html = `
          <body>
          <header>
             <div class="header">
@@ -65,14 +65,19 @@ const formatSingleItem = (data, name) => {
                deps.length > 0
                   ? deps
                        .map(v => {
-                          return `<a href=${v === 'python3:any' ? v.replace(':any', '') : v} alt=${v}>
+                          const item = data.get(v)
+                          if (item) {
+                             return `<a href=${v === 'python3:any' ? v.replace(':any', '') : v} alt=${v}>
                <li> ${v} </li>
                </a>`
+                          } else {
+                             return `<li> ${v} </li>`
+                          }
                        })
                        .join('')
                   : `<h4>No dependencies</h4>`
             }
-            </ul>
+            </ul> 
             <h4 class="deps">The reverse dependencies of this package: </h4>
             <ul>
             ${
@@ -97,7 +102,7 @@ const formatSingleItem = (data, name) => {
          console.error('failed to format item')
       }
    }
-   console.error('no package found')
+   console.error('No package found')
 }
 
 module.exports = {

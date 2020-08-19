@@ -11,18 +11,16 @@ const readFile = async path => {
 }
 
 const parseSingleItem = str => {
-   // Find name and description
    const name = str.match(/(?<=Package: ).+/)[0]
    const descriptionSearch = str.match(/(?<=Description: )[\s\S]+?(?=\n[A-Z])/)
-   // Replace \n with <br/>
    const desc = descriptionSearch && descriptionSearch[0].replace('\n', '<br/>').replace(/\.\s*\./, '.')
-   //find deps and remove version numbers
    const depsSearch = str.match(/(?<=Depends: )[\s\S]+?(?=\n[A-Z])/)
-
    const deps = depsSearch
       ? depsSearch[0]
            .replace(/\(.*?\)/g, '')
            .split(',')
+           .map(v => v.split(' | '))
+           .flat()
            .map(v => v.trim())
       : []
 
@@ -45,7 +43,6 @@ const parseFile = fileContents => {
 
 // cached data array
 let _data
-
 async function getData() {
    if (_data) return _data
    const file = await readFile(config.files.varLib)
