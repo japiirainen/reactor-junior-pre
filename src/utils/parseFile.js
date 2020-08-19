@@ -36,13 +36,11 @@ const parseSingleItem = str => {
    ]
 }
 
-//need to be able to find reverse deps so maybe should put deps as list of ids to be able to search with id
-
 const parseFile = fileContents => {
    //packages separated by empty line so split with\n\n
-   const singlePackages = fileContents.split('\n\n').filter(v => v.startsWith('Package'))
+   const packages = fileContents.split('\n\n').filter(v => v.startsWith('Package'))
    //parse items to a Map
-   return new Map(singlePackages.map(parseSingleItem))
+   return new Map(packages.map(parseSingleItem))
 }
 
 // cached data array
@@ -54,7 +52,6 @@ async function getData() {
    _data = parseFile(file)
    return _data
 }
-getData()
 
 module.exports = {
    getData,
