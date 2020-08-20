@@ -43,7 +43,7 @@ const parseFile = fileContents => {
 
 // cached data array
 let _data
-async function getData() {
+async function getDataAndParseToMap() {
    if (_data) return _data
    const file = await readFile(config.files.varLib)
    _data = parseFile(file)
@@ -51,6 +51,6 @@ async function getData() {
 }
 
 module.exports = {
-   getData,
+   getDataAndParseToMap,
    readFile,
 }

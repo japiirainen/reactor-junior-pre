@@ -6,7 +6,7 @@ const app = express()
 
 dotenv.config()
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 4000
 
 //apply stylesheet
 app.use(express.static(path.join(__dirname, 'templates', 'styles')))

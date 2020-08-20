@@ -1,28 +1,31 @@
 const { config } = require('../config')
-const { formatPackageNames, formatSingleItem } = require('./formatHTML')
+const { formatPackageNames, formatSingleItem } = require('./format/formatHTML')
+const { getDataAndParseToMap, readFile } = require('./parseFile')
 
-const { getData, readFile } = require('./parseFile')
-
-const constructPackageHTML = async name => {
-   const data = await getData()
-   return formatSingleItem(data, name)
-}
-
-const constructListHTML = async () => {
-   const data = await getData()
+const constructListToHTML = async () => {
+   const data = await getDataAndParseToMap()
    return formatPackageNames(data)
 }
 
+const constructPackageToHTML = async name => {
+   const data = await getDataAndParseToMap()
+   return formatSingleItem(data, name)
+}
+
+const {
+   templates: { itemList, singleItem },
+} = config
+
 const renderIndexPage = async (_, res) => {
-   const template = await readFile(config.templates.itemList)
-   const packageNameList = await constructListHTML()
+   const template = await readFile(itemList)
+   const packageNameList = await constructListToHTML()
    const html = template.toString().replace('{{ list }}', packageNameList)
    res.send(html)
 }
 
 const renderItemPage = async (req, res) => {
-   const template = await readFile(config.templates.singleItem)
-   const item = await constructPackageHTML(req.params.name)
+   const template = await readFile(singleItem)
+   const item = await constructPackageToHTML(req.params.name)
    const html = template.toString().replace('{{ package info }}', item)
    res.send(html)
 }

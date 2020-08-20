@@ -27,7 +27,8 @@ h6 {
 }
 
 h6 {
-   font-size: 25px
+   font-size: 25px;
+   margin-bottom: 2rem;
 }
 
 .header {
