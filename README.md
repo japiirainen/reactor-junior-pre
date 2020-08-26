@@ -26,4 +26,4 @@ I decided to not use React, which is what I have used to write all my user inter
 
 -  _Please keep the code simple and sweet. The main design goal of this program is maintainability. We value the simplicity and readability of the code over the number of features_.
 
-I already talked about this but I followed these principles to my best ability!😊
+I already talked about this but I followed these principles to my best ability!
