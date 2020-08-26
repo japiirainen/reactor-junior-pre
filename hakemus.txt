@@ -1,0 +1,16 @@
+There is already plenty of information about me in my cv I linked below so I`ll try to not repeat myself here.
+
+Im Interested in your Junior software developer position for spring 2020, because it would be a great learning experience and I love a challenge!
+
+I completed the pre-assignment project and here are links for that:
+1. website
+- https://reactor-pre-assignment.herokuapp.com/
+2. github repository for the source code and my thoughts about the project
+- https://github.com/japiirainen/reactor-junior-pre
+
+You can find more code written by me in my github 
+github: https://github.com/japiirainen
+my blog: https://joonapiirainen.com/
+
+Best Regards,
+Joona Piirainen
