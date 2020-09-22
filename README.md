@@ -1,7 +1,3 @@
-## My solution to Reaktor´s
-
-[**pre-assignment for junior developer positions**](https://www.reaktor.com/junior-dev-assignment/).
-
 [**Link to the website**](https://reactor-pre-assignment.herokuapp.com/).
 
 ### To run the program locally just clone this repository to your computer and run the following command:
